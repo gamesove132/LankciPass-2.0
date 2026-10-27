@@ -1,0 +1,483 @@
+# LankciPassCore - quests.yml
+# Квести розділені за режимами (modes.<id>) - прогрес одного режиму не зараховується в іншому.
+# Id режимів мають збігатися з config.yml (modes). Нагорода (reward) - жетони.
+#
+# Типи: KILL_MOB, KILL_UNIQUE_MOB, KILL_PLAYER, BREAK_BLOCK, FISH, CRAFT_ITEM, PLAY_MINUTES, COMPLETE_QUESTS
+#   entities  - фільтр видів мобів (порожньо = будь-які); materials - фільтр блоків/предметів.
+#   bonus-commands - необов'язкові команди консолі при отриманні нагороди ({player}).
+# Склад циклу: settings.<daily|mega>.pick - скільки квестів кожної складності випадково вибирається.
+# Скільки показує GUI: до 6 звичайних і до 6 мега-квестів на режим.
+#
+# Файл можна змінювати; після змін: /lankcipass reload (нові квести з'являться в наступному циклі,
+# або /lankcipass quest rotate для негайної заміни).
+
+settings:
+  daily:
+    period-hours: 24
+    pick: {EASY: 1, MEDIUM: 1, HARD: 1, EXTREME: 1}
+  mega:
+    period-hours: 72
+    pick: {MEGA: 3}
+
+difficulties:
+  EASY:    {name: "Легкий",        color: "&a", icon: LIME_DYE}
+  MEDIUM:  {name: "Середній",      color: "&e", icon: YELLOW_DYE}
+  HARD:    {name: "Важкий",        color: "&6", icon: ORANGE_DYE}
+  EXTREME: {name: "Екстремальний", color: "&c", icon: RED_DYE}
+  MEGA:    {name: "Мега",          color: "&d", icon: MAGENTA_DYE}
+
+modes:
+  # SMP: базовий набір. Нагороди 250/500/700/1000 (звичайні), 1000-1700 (мега).
+  smp:
+    daily:
+      zombie_5:
+        name: "Мисливець на зомбі"
+        description: ["Убий 5 зомбі або їхніх різновидів."]
+        difficulty: EASY
+        type: KILL_MOB
+        amount: 5
+        reward: 250
+        entities: [ZOMBIE, ZOMBIE_VILLAGER, HUSK, DROWNED]
+      skeleton_8:
+        name: "Кістяний мисливець"
+        description: ["Убий 8 скелетів, страйів або боґґедів."]
+        difficulty: EASY
+        type: KILL_MOB
+        amount: 8
+        reward: 250
+        entities: [SKELETON, STRAY, BOGGED]
+      stone_128:
+        name: "Каменяр"
+        description: ["Здобудь 128 блоків каменю."]
+        difficulty: EASY
+        type: BREAK_BLOCK
+        amount: 128
+        reward: 250
+        materials: [STONE, COBBLESTONE, DEEPSLATE, COBBLED_DEEPSLATE, ANDESITE, DIORITE, GRANITE]
+      fish_6:
+        name: "Терплячий рибалка"
+        description: ["Виловити 6 разів із вудкою."]
+        difficulty: EASY
+        type: FISH
+        amount: 6
+        reward: 250
+      zombie_15:
+        name: "Зомбі-апокаліпсис"
+        description: ["Убий 15 зомбі або їхніх різновидів."]
+        difficulty: MEDIUM
+        type: KILL_MOB
+        amount: 15
+        reward: 500
+        entities: [ZOMBIE, ZOMBIE_VILLAGER, HUSK, DROWNED]
+      creeper_10:
+        name: "Саперна справа"
+        description: ["Убий 10 кріперів."]
+        difficulty: MEDIUM
+        type: KILL_MOB
+        amount: 10
+        reward: 500
+        entities: [CREEPER]
+      iron_32:
+        name: "Залізна лихоманка"
+        description: ["Видобудь 32 залізної руди."]
+        difficulty: MEDIUM
+        type: BREAK_BLOCK
+        amount: 32
+        reward: 500
+        materials: [IRON_ORE, DEEPSLATE_IRON_ORE]
+      spider_20:
+        name: "Павуча чистка"
+        description: ["Убий 20 павуків."]
+        difficulty: MEDIUM
+        type: KILL_MOB
+        amount: 20
+        reward: 500
+        entities: [SPIDER, CAVE_SPIDER]
+      zombie_30:
+        name: "Орда мерців"
+        description: ["Убий 30 зомбі або їхніх різновидів."]
+        difficulty: HARD
+        type: KILL_MOB
+        amount: 30
+        reward: 700
+        entities: [ZOMBIE, ZOMBIE_VILLAGER, HUSK, DROWNED]
+      enderman_10:
+        name: "Погляд у безодню"
+        description: ["Убий 10 ендерменів."]
+        difficulty: HARD
+        type: KILL_MOB
+        amount: 10
+        reward: 700
+        entities: [ENDERMAN]
+      diamond_8:
+        name: "Алмазна жила"
+        description: ["Видобудь 8 алмазної руди."]
+        difficulty: HARD
+        type: BREAK_BLOCK
+        amount: 8
+        reward: 700
+        materials: [DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE]
+      variety_6:
+        name: "Різноманітність"
+        description: ["Убий 6 різних видів ворожих мобів."]
+        difficulty: HARD
+        type: KILL_UNIQUE_MOB
+        amount: 6
+        reward: 700
+        entities: [ZOMBIE, SKELETON, CREEPER, SPIDER, ENDERMAN, WITCH, SLIME, PHANTOM, DROWNED, PILLAGER, VINDICATOR, BLAZE, GHAST, WITHER_SKELETON, HUSK, STRAY, CAVE_SPIDER, SILVERFISH]
+      wither_skel_10:
+        name: "Прокляття Незера"
+        description: ["Убий 10 скелетів-візерів."]
+        difficulty: EXTREME
+        type: KILL_MOB
+        amount: 10
+        reward: 1000
+        entities: [WITHER_SKELETON]
+      debris_4:
+        name: "Давні уламки"
+        description: ["Видобудь 4 давніх уламки."]
+        difficulty: EXTREME
+        type: BREAK_BLOCK
+        amount: 4
+        reward: 1000
+        materials: [ANCIENT_DEBRIS]
+      gauntlet_10:
+        name: "Бойове випробування"
+        description: ["Убий 10 різних видів ворожих мобів."]
+        difficulty: EXTREME
+        type: KILL_UNIQUE_MOB
+        amount: 10
+        reward: 1000
+        entities: [ZOMBIE, SKELETON, CREEPER, SPIDER, ENDERMAN, WITCH, SLIME, PHANTOM, DROWNED, PILLAGER, VINDICATOR, BLAZE, GHAST, WITHER_SKELETON, HUSK, STRAY, CAVE_SPIDER, SILVERFISH]
+      duelist_3:
+        name: "Дуелянт"
+        description: ["Переможи 3 гравців у PvP.", "Нагорода видається лише за чесні вбивства."]
+        difficulty: EXTREME
+        type: KILL_PLAYER
+        amount: 3
+        reward: 1000
+    mega:
+      m_slayer:
+        name: "Винищувач"
+        description: ["Убий 150 будь-яких мобів."]
+        difficulty: MEGA
+        type: KILL_MOB
+        amount: 150
+        reward: 1000
+      m_variety:
+        name: "Бестіарій"
+        description: ["Убий 12 різних видів ворожих мобів."]
+        difficulty: MEGA
+        type: KILL_UNIQUE_MOB
+        amount: 12
+        reward: 1200
+        entities: [ZOMBIE, SKELETON, CREEPER, SPIDER, ENDERMAN, WITCH, SLIME, PHANTOM, DROWNED, PILLAGER, VINDICATOR, BLAZE, GHAST, WITHER_SKELETON, HUSK, STRAY, CAVE_SPIDER, SILVERFISH]
+      m_quests:
+        name: "Завзяттям - до перемоги"
+        description: ["Виконай 8 звичайних квестів цього режиму."]
+        difficulty: MEGA
+        type: COMPLETE_QUESTS
+        amount: 8
+        reward: 1300
+      m_miner:
+        name: "Шахтар-рекордсмен"
+        description: ["Видобудь 300 будь-яких руд."]
+        difficulty: MEGA
+        type: BREAK_BLOCK
+        amount: 300
+        reward: 1100
+        materials: [IRON_ORE, DEEPSLATE_IRON_ORE, DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE, COAL_ORE, DEEPSLATE_COAL_ORE, COPPER_ORE, DEEPSLATE_COPPER_ORE, GOLD_ORE, DEEPSLATE_GOLD_ORE, LAPIS_ORE, DEEPSLATE_LAPIS_ORE, REDSTONE_ORE, DEEPSLATE_REDSTONE_ORE, EMERALD_ORE, DEEPSLATE_EMERALD_ORE, NETHER_GOLD_ORE, NETHER_QUARTZ_ORE, ANCIENT_DEBRIS]
+      m_nether:
+        name: "Жителі пекла"
+        description: ["Убий 60 мешканців Незера."]
+        difficulty: MEGA
+        type: KILL_MOB
+        amount: 60
+        reward: 1500
+        entities: [BLAZE, GHAST, WITHER_SKELETON, PIGLIN_BRUTE, HOGLIN, ZOGLIN, MAGMA_CUBE, ZOMBIFIED_PIGLIN]
+      m_pvp:
+        name: "Король арени"
+        description: ["Переможи 8 гравців у PvP."]
+        difficulty: MEGA
+        type: KILL_PLAYER
+        amount: 8
+        reward: 1700
+
+  # Hardcore: складніші завдання, ризикованіші цілі; мега-нагороди 1300-1900.
+  hardcore:
+    daily:
+      zombie_10:
+        name: "Обережний мисливець"
+        description: ["Убий 10 зомбі. Одна помилка - і кінець."]
+        difficulty: EASY
+        type: KILL_MOB
+        amount: 10
+        reward: 250
+        entities: [ZOMBIE, ZOMBIE_VILLAGER, HUSK, DROWNED]
+      stone_192:
+        name: "Підземний каменяр"
+        description: ["Здобудь 192 блоки каменю."]
+        difficulty: EASY
+        type: BREAK_BLOCK
+        amount: 192
+        reward: 250
+        materials: [STONE, COBBLESTONE, DEEPSLATE, COBBLED_DEEPSLATE, ANDESITE, DIORITE, GRANITE]
+      survive_30:
+        name: "Перші півгодини"
+        description: ["Проведи 30 хвилин у хардкорі."]
+        difficulty: EASY
+        type: PLAY_MINUTES
+        amount: 30
+        reward: 250
+      creeper_15:
+        name: "Тиша перед вибухом"
+        description: ["Убий 15 кріперів."]
+        difficulty: MEDIUM
+        type: KILL_MOB
+        amount: 15
+        reward: 500
+        entities: [CREEPER]
+      iron_48:
+        name: "Залізний запас"
+        description: ["Видобудь 48 залізної руди."]
+        difficulty: MEDIUM
+        type: BREAK_BLOCK
+        amount: 48
+        reward: 500
+        materials: [IRON_ORE, DEEPSLATE_IRON_ORE]
+      survive_60:
+        name: "Година виживання"
+        description: ["Проведи 60 хвилин у хардкорі."]
+        difficulty: MEDIUM
+        type: PLAY_MINUTES
+        amount: 60
+        reward: 500
+      enderman_15:
+        name: "Тонка грань"
+        description: ["Убий 15 ендерменів."]
+        difficulty: HARD
+        type: KILL_MOB
+        amount: 15
+        reward: 700
+        entities: [ENDERMAN]
+      diamond_12:
+        name: "Ризик заради алмазів"
+        description: ["Видобудь 12 алмазної руди."]
+        difficulty: HARD
+        type: BREAK_BLOCK
+        amount: 12
+        reward: 700
+        materials: [DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE]
+      variety_8:
+        name: "Мисливець на все живе"
+        description: ["Убий 8 різних видів ворожих мобів."]
+        difficulty: HARD
+        type: KILL_UNIQUE_MOB
+        amount: 8
+        reward: 700
+        entities: [ZOMBIE, SKELETON, CREEPER, SPIDER, ENDERMAN, WITCH, SLIME, PHANTOM, DROWNED, PILLAGER, VINDICATOR, BLAZE, GHAST, WITHER_SKELETON, HUSK, STRAY, CAVE_SPIDER, SILVERFISH]
+      wither_skel_15:
+        name: "Прокляття Незера"
+        description: ["Убий 15 скелетів-візерів."]
+        difficulty: EXTREME
+        type: KILL_MOB
+        amount: 15
+        reward: 1000
+        entities: [WITHER_SKELETON]
+      debris_6:
+        name: "Давні уламки"
+        description: ["Видобудь 6 давніх уламків."]
+        difficulty: EXTREME
+        type: BREAK_BLOCK
+        amount: 6
+        reward: 1000
+        materials: [ANCIENT_DEBRIS]
+      gauntlet_14:
+        name: "Бойове випробування"
+        description: ["Убий 14 різних видів ворожих мобів."]
+        difficulty: EXTREME
+        type: KILL_UNIQUE_MOB
+        amount: 14
+        reward: 1000
+        entities: [ZOMBIE, SKELETON, CREEPER, SPIDER, ENDERMAN, WITCH, SLIME, PHANTOM, DROWNED, PILLAGER, VINDICATOR, BLAZE, GHAST, WITHER_SKELETON, HUSK, STRAY, CAVE_SPIDER, SILVERFISH]
+    mega:
+      m_slayer:
+        name: "Винищувач без права на помилку"
+        description: ["Убий 250 будь-яких мобів."]
+        difficulty: MEGA
+        type: KILL_MOB
+        amount: 250
+        reward: 1300
+      m_variety:
+        name: "Бестіарій хардкору"
+        description: ["Убий 15 різних видів ворожих мобів."]
+        difficulty: MEGA
+        type: KILL_UNIQUE_MOB
+        amount: 15
+        reward: 1500
+        entities: [ZOMBIE, SKELETON, CREEPER, SPIDER, ENDERMAN, WITCH, SLIME, PHANTOM, DROWNED, PILLAGER, VINDICATOR, BLAZE, GHAST, WITHER_SKELETON, HUSK, STRAY, CAVE_SPIDER, SILVERFISH]
+      m_quests:
+        name: "Залізна дисципліна"
+        description: ["Виконай 10 звичайних квестів цього режиму."]
+        difficulty: MEGA
+        type: COMPLETE_QUESTS
+        amount: 10
+        reward: 1600
+      m_survive:
+        name: "Незламний"
+        description: ["Проведи 6 годин у хардкорі."]
+        difficulty: MEGA
+        type: PLAY_MINUTES
+        amount: 360
+        reward: 1400
+      m_nether:
+        name: "Пекельний рейд"
+        description: ["Убий 100 мешканців Незера."]
+        difficulty: MEGA
+        type: KILL_MOB
+        amount: 100
+        reward: 1700
+        entities: [BLAZE, GHAST, WITHER_SKELETON, PIGLIN_BRUTE, HOGLIN, ZOGLIN, MAGMA_CUBE, ZOMBIFIED_PIGLIN]
+      m_pvp:
+        name: "Остання кров"
+        description: ["Переможи 10 гравців у PvP."]
+        difficulty: MEGA
+        type: KILL_PLAYER
+        amount: 10
+        reward: 1900
+
+  # OneBlock: простіші завдання й менші нагороди (150/300/450/700, мега 800-1400).
+  oneblock:
+    daily:
+      break_100:
+        name: "Перші блоки"
+        description: ["Зламай 100 блоків на острові."]
+        difficulty: EASY
+        type: BREAK_BLOCK
+        amount: 100
+        reward: 150
+      kill_5:
+        name: "Захисник острова"
+        description: ["Убий 5 мобів."]
+        difficulty: EASY
+        type: KILL_MOB
+        amount: 5
+        reward: 150
+      fish_4:
+        name: "Рибалка на острові"
+        description: ["Виловити 4 рази з вудкою."]
+        difficulty: EASY
+        type: FISH
+        amount: 4
+        reward: 150
+      break_250:
+        name: "Невтомний копач"
+        description: ["Зламай 250 блоків на острові."]
+        difficulty: MEDIUM
+        type: BREAK_BLOCK
+        amount: 250
+        reward: 300
+      kill_12:
+        name: "Нічна варта"
+        description: ["Убий 12 мобів."]
+        difficulty: MEDIUM
+        type: KILL_MOB
+        amount: 12
+        reward: 300
+      time_30:
+        name: "Господар острова"
+        description: ["Проведи 30 хвилин на OneBlock."]
+        difficulty: MEDIUM
+        type: PLAY_MINUTES
+        amount: 30
+        reward: 300
+      break_500:
+        name: "Блок за блоком"
+        description: ["Зламай 500 блоків на острові."]
+        difficulty: HARD
+        type: BREAK_BLOCK
+        amount: 500
+        reward: 450
+      kill_25:
+        name: "Полювання на мобів"
+        description: ["Убий 25 мобів."]
+        difficulty: HARD
+        type: KILL_MOB
+        amount: 25
+        reward: 450
+      variety_5:
+        name: "Різні гості"
+        description: ["Убий 5 різних видів ворожих мобів."]
+        difficulty: HARD
+        type: KILL_UNIQUE_MOB
+        amount: 5
+        reward: 450
+        entities: [ZOMBIE, SKELETON, CREEPER, SPIDER, ENDERMAN, WITCH, SLIME, PHANTOM, DROWNED, PILLAGER, VINDICATOR, BLAZE, GHAST, WITHER_SKELETON, HUSK, STRAY, CAVE_SPIDER, SILVERFISH]
+      break_1000:
+        name: "Майстер OneBlock"
+        description: ["Зламай 1000 блоків на острові."]
+        difficulty: EXTREME
+        type: BREAK_BLOCK
+        amount: 1000
+        reward: 700
+      kill_50:
+        name: "Легенда острова"
+        description: ["Убий 50 мобів."]
+        difficulty: EXTREME
+        type: KILL_MOB
+        amount: 50
+        reward: 700
+      variety_8:
+        name: "Повний бестіарій"
+        description: ["Убий 8 різних видів ворожих мобів."]
+        difficulty: EXTREME
+        type: KILL_UNIQUE_MOB
+        amount: 8
+        reward: 700
+        entities: [ZOMBIE, SKELETON, CREEPER, SPIDER, ENDERMAN, WITCH, SLIME, PHANTOM, DROWNED, PILLAGER, VINDICATOR, BLAZE, GHAST, WITHER_SKELETON, HUSK, STRAY, CAVE_SPIDER, SILVERFISH]
+    mega:
+      m_break:
+        name: "Тисячі блоків"
+        description: ["Зламай 3000 блоків на OneBlock."]
+        difficulty: MEGA
+        type: BREAK_BLOCK
+        amount: 3000
+        reward: 800
+      m_kill:
+        name: "Захисник стихій"
+        description: ["Убий 100 мобів."]
+        difficulty: MEGA
+        type: KILL_MOB
+        amount: 100
+        reward: 900
+      m_quests:
+        name: "Щоденний ритм"
+        description: ["Виконай 8 звичайних квестів цього режиму."]
+        difficulty: MEGA
+        type: COMPLETE_QUESTS
+        amount: 8
+        reward: 1000
+      m_variety:
+        name: "Бестіарій острова"
+        description: ["Убий 10 різних видів ворожих мобів."]
+        difficulty: MEGA
+        type: KILL_UNIQUE_MOB
+        amount: 10
+        reward: 1200
+        entities: [ZOMBIE, SKELETON, CREEPER, SPIDER, ENDERMAN, WITCH, SLIME, PHANTOM, DROWNED, PILLAGER, VINDICATOR, BLAZE, GHAST, WITHER_SKELETON, HUSK, STRAY, CAVE_SPIDER, SILVERFISH]
+      m_time:
+        name: "Довга зміна"
+        description: ["Проведи 4 години на OneBlock."]
+        difficulty: MEGA
+        type: PLAY_MINUTES
+        amount: 240
+        reward: 800
+      m_ores:
+        name: "Рудний потік"
+        description: ["Видобудь 150 будь-яких руд."]
+        difficulty: MEGA
+        type: BREAK_BLOCK
+        amount: 150
+        reward: 1400
+        materials: [IRON_ORE, DEEPSLATE_IRON_ORE, DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE, COAL_ORE, DEEPSLATE_COAL_ORE, COPPER_ORE, DEEPSLATE_COPPER_ORE, GOLD_ORE, DEEPSLATE_GOLD_ORE, LAPIS_ORE, DEEPSLATE_LAPIS_ORE, REDSTONE_ORE, DEEPSLATE_REDSTONE_ORE, EMERALD_ORE, DEEPSLATE_EMERALD_ORE, NETHER_GOLD_ORE, NETHER_QUARTZ_ORE, ANCIENT_DEBRIS]
+

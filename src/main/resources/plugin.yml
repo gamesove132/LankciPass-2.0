@@ -1,0 +1,43 @@
+name: LankciPassCore
+version: '${project.version}'
+main: world.lankci.pass.LankciPassCore
+api-version: '1.21'
+author: LankciWorld
+description: LankciPass 2.0 - Battle Pass, tokens, quests and seasons
+softdepend: [PlaceholderAPI, LuckPerms, DeluxeMenus]
+
+commands:
+  lankcipass:
+    description: LankciPass - головна команда
+    usage: /<command> [help]
+    aliases: [lpass]
+
+permissions:
+  lankcipass.use:
+    description: Відкривати LankciPass, квести, сезони та магазин жетонів
+    default: true
+  lankcipass.admin:
+    description: Усі адміністративні команди LankciPass
+    default: op
+    children:
+      lankcipass.use: true
+      lankcipass.admin.reload: true
+      lankcipass.admin.tokens: true
+      lankcipass.admin.quest: true
+      lankcipass.admin.season: true
+      lankcipass.admin.debug: true
+  lankcipass.admin.reload:
+    description: /lankcipass reload
+    default: op
+  lankcipass.admin.tokens:
+    description: /lankcipass tokens
+    default: op
+  lankcipass.admin.quest:
+    description: /lankcipass quest reset
+    default: op
+  lankcipass.admin.season:
+    description: Керування сезонами (команди та адмін-меню)
+    default: op
+  lankcipass.admin.debug:
+    description: /lankcipass debug
+    default: op
