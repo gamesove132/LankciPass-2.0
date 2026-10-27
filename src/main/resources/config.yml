@@ -1,0 +1,112 @@
+# LankciPassCore - config.yml (LankciPass 2.0 для LankciWorld)
+# Після змін: /lankcipass reload. Параметри database.* застосовуються лише після перезапуску сервера.
+
+# Часовий пояс для відображення і введення дат (setend). Формат дати у GUI/повідомленнях - date-format.
+timezone: "Europe/Kyiv"
+date-format: "dd.MM.yyyy HH:mm"
+
+# Увімкнути докладні повідомлення в консолі (наприклад, чому не видано нагороду за PvP).
+debug: false
+
+# Скільки секунд діє запит підтвердження небезпечних команд (/lankcipass confirm).
+confirm-timeout-seconds: 30
+
+database:
+  file: "lankcipass.db"        # у папці плагіна; SQLite (WAL, synchronous=FULL)
+  backup:
+    enabled: true              # резервна копія перед міграцією схеми та перед небезпечними операціями
+    keep: 15                   # скільки копій у plugins/LankciPassCore/backups зберігати
+
+# --- Режими ----------------------------------------------------------------------------
+# Режим визначається СВІТОМ, у якому сталася подія (вбивство, блок, риба...), а не профілем гравця.
+# Прив'язка: world-uuids (надійніше, переживає перейменування) і/або worlds (назви світів).
+# Плагін також запам'ятовує UUID відомих світів у базі, тому перейменований світ залишається у своєму режимі.
+# Світ, якого немає в жодному режимі, прогрес квестів не нараховує (/lankcipass debug покаже такі світи).
+# Дуелі (та будь-який світ, якого тут немає) пасу й квестів не мають: прогрес і PvP-нагороди там не нараховуються.
+# УВАГА: назви світів нижче - приклад. Замініть на реальні назви світів вашого сервера.
+modes:
+  smp:
+    display: "&aSMP"
+    icon: GRASS_BLOCK
+    worlds: ["world", "world_nether", "world_the_end"]
+    world-uuids: []
+  anarchy1:
+    display: "&4Анархія 1"
+    icon: TNT
+    worlds: ["anarchy1", "anarchy1_nether", "anarchy1_the_end"]
+    world-uuids: []
+  anarchy2:
+    display: "&4Анархія 2"
+    icon: TNT
+    worlds: ["anarchy2", "anarchy2_nether", "anarchy2_the_end"]
+    world-uuids: []
+  anarchy3:
+    display: "&4Анархія 3"
+    icon: TNT
+    worlds: ["anarchy3", "anarchy3_nether", "anarchy3_the_end"]
+    world-uuids: []
+  oneblock:
+    display: "&bOneBlock"
+    icon: GRASS_BLOCK
+    worlds: ["oneblock_world", "oneblock_world_nether", "oneblock_world_the_end"]
+    world-uuids: []
+
+# --- Меню DeluxeMenus -----------------------------------------------------------------------
+# Назви файлів меню (без .yml) із plugins/DeluxeMenus/gui_menus та записи в DeluxeMenus/config.yml.
+menus:
+  main: "lankcipass_main"
+  quests: "lankcipass_quests"
+  mega: "lankcipass_mega"
+  seasons: "lankcipass_seasons"
+  shop: "lankcipass_shop"
+
+# --- Жетони ----------------------------------------------------------------------------
+tokens:
+  max-balance: 1000000000      # верхня межа балансу (захист від переповнення)
+  points-per-token: 1.0        # очки сезону = отримані жетони x це число (0 - очки не нараховуються)
+
+# --- Жетони за вбивства гравців (PvP) -------------------------------------------------------------
+pvp:
+  enabled: true
+  min-tokens: 10
+  max-tokens: 50                          # випадкова кількість у діапазоні min..max
+  per-victim-cooldown-seconds: 1800       # той самий гравець не дає нагороду частіше, ніж раз на 30 хв
+  max-rewards-per-victim-per-day: 3       # не більше N нагород за одного й того ж гравця за 24 год
+  max-rewards-per-day: 20                 # загальний добовий ліміт нагород за PvP на гравця
+  ignore-same-ip: true                    # не нагороджувати, якщо вбивця й жертва мають одну IP-адресу
+  victim-min-online-seconds: 120          # жертва мусить бути на сервері не менше N секунд
+  require-known-mode: true                # нагорода лише у світах, що належать режиму (modes)
+  notify-rejected: false                  # повідомляти вбивцю про причину відмови
+
+# --- Квести -----------------------------------------------------------------------------
+quests:
+  auto-claim: true                    # нагорода жетонами видається автоматично при виконанні
+  ignore-creative: true               # у творчому режимі прогрес не зараховується
+  ignore-spawner-mobs: true           # мобів зі спавнерів не рахуємо
+  ignore-player-placed-blocks: true   # блоки, поставлені гравцями, не рахуємо (захист від «постав-зламай»)
+  flush-interval-ticks: 40            # як часто (тіки) накопичений прогрес записується в базу
+  cycle-check-seconds: 30             # як часто перевіряється закінчення циклу квестів
+
+# --- Сезони -----------------------------------------------------------------------------
+seasons:
+  default-duration-days: 30
+  keep-scheduled-ahead: 2             # поточний + 2 майбутні сезони завжди в черзі
+  check-interval-seconds: 20          # як часто перевіряється закінчення сезону
+  legacy-luckperms-import: true       # одноразовий імпорт старих pass.N.done із LuckPerms (лише читання)
+  timer:
+    warning-days: 15                  # <= 15 днів - жовтий
+    critical-days: 5                  # <= 5 днів - червоний
+    color-normal: "&b"
+    color-warning: "&e"
+    color-critical: "&c"
+
+# --- Нагороди -----------------------------------------------------------------------------
+rewards:
+  # Перевіряти, що команда з нагороди існує, ДО того як її буде зараховано (інакше нагороду не видаємо).
+  precheck-commands: true
+  # Мітки команд плагінів, які реєструються пізніше за LankciPassCore або не видно в командній мапі.
+  trusted-command-labels: ["dc"]
+
+gui:
+  sounds: true
+  refresh-ticks: 20
